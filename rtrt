@@ -1,0 +1,134 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+const int SIZE = 50;
+const int MAX_BOOKS = 50;
+
+struct Book
+{
+	char name[SIZE]{};
+	char author[SIZE]{};
+	char publisher[SIZE]{};
+	char genre[SIZE]{};
+};
+Book library[MAX_BOOKS];
+
+
+int main()
+{
+	int size = 7;
+	Book book = { "Introduction to Programming", "Alexander Ivanenko", "Education Publishing", "Book" };
+	Book* library = new Book[size]{
+	{ "Sales Techniques", "Maria Petrenko", "Business Book", "Book" },
+	{ "News of Ukraine", "Editorial Team", "Today Newspaper", "Newspaper" },
+	{ "Young Scientist", "Editorial Team", "Scientific World", "Magazine" },
+	{ "Culinary Recipes of the World", "Sophia Gryshchenko", "Culinary Press", "Magazine" },
+	{ "Technologies of the Future", "Vladislav Kovalenko", "TechnoTeka", "Magazine" },
+	{ "Fashion Life", "Editorial Team", "Fashion Magazine", "Magazine" },
+	book
+	};
+
+	/*fstream file("data.txt", ios_base::out);
+	if (!file.is_open())
+		cout << "Error" << endl;
+	else
+	{
+		file.write((char*)&book, sizeof(Book));
+	}*/
+
+	//заповнненя книги
+	fstream filewrite("data.dat", ios_base::out | ios_base::in | ios_base::binary);
+	if (!filewrite.is_open())
+		cout << "Error" << endl;
+	else
+	{
+		filewrite.write((char*)&book, sizeof(Book));
+	}
+	filewrite.close();
+
+	//Перегляд бази даних
+	fstream file("data.txt", ios_base::in);
+	Book res;
+	if (!file.is_open())
+		cout << "Error" << endl;
+	else
+	{
+		while (file.read((char*)&res, sizeof(Book)))
+		{
+			cout << "\n\n ========================= " << res.name << " ============================" << endl;
+			cout << "\t\t Author    :: " << res.author << endl;
+			cout << "\t\t Publisher :: " << res.publisher << endl;
+			cout << "\t\t Genre     :: " << res.genre << endl;
+		}
+
+	}
+	// Доповнення бази данних
+	/*int size = 0;
+	cout << "======================new book=========================" << endl;
+	cout << "Enter book name: ";
+	cin.ignore();
+	cin.getline(library[size].name, SIZE);
+	cout << "Enter author: ";
+	cin.getline(library[size].author, SIZE);
+	cout << "Enter publisher: ";
+	cin.getline(library[size].publisher, SIZE);
+	cout << "Enter genre: ";
+	cin.getline(library[size].genre, SIZE);
+	size++;*/
+
+
+	//видалення книги за назвою
+	/*cout << "Enter book name to delete: ";
+	char bookName[SIZE];
+	cin.ignore();
+	cin.getline(bookName, SIZE);
+
+	int index = -1;
+	for (size_t i = 0; i < size; i++) 
+	{
+		if (strcmp(library[i].name, bookName) == 0) {
+			index = i;
+			break;
+		}
+	}
+
+	for (size_t i = index; i < size - 1; i++) 
+	{
+		library[i] = library[i + 1];
+	}
+	size--; 
+
+	for (size_t i = 0; i < size; i++) {
+		cout << "\n\n ========================= " << library[i].name << " ============================" << endl;
+		cout << "\t\t Author    :: " << library[i].author << endl;
+		cout << "\t\t Publisher :: " << library[i].publisher << endl;
+		cout << "\t\t Genre     :: " << library[i].genre << endl;
+	}*/
+
+	////
+	//int bookCount = 0;
+	//char searchName[SIZE], searchAuthor[SIZE];
+	//cout << "Enter the book title to search: ";
+	//cin.ignore();
+	//cin.getline(searchName, SIZE);
+	//cout << "Enter the author of the book to search: ";
+	//cin.getline(searchAuthor, SIZE);
+
+	//bool bookFound = false;
+	//for (size_t i = 0; i < bookCount; i++) 
+	//{
+	//	if (strcmp(library[i].name, searchName) == 0 && strcmp(library[i].author, searchAuthor) == 0) {
+	//		bookFound = true;
+	//		break;
+	//	}
+	//}
+
+	//if (bookFound) {
+	//	cout << "The book '" << searchName << "' by '" << searchAuthor << "' was found." << endl;
+	//}
+	//else {
+	//	cout << "Book not found." << endl;
+	//}
+
+}
